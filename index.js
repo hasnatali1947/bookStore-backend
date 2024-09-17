@@ -13,19 +13,18 @@ dotenv.config();
 const PORT = process.env.PORT || 3500
 const mongodb = process.env.MongoDBURI
 
-app.use("/api/v1", routes);
-
 // connect mongodb
 try {
     mongoose.connect(mongodb, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
     })
     console.log("connected to mongoDB");
 } catch (error) {
-    console.log("ERROR", error);
-
+    console.log("ERROR", error); 
 }
+
+app.use("/api/v1", routes);
 
 app.get('/', (req, res) => {
     res.send('Hello World!')

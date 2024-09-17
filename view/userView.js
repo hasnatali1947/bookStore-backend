@@ -24,11 +24,10 @@ const Login = async ({ data }) => {
     try {
         const user = await userModel.findOne({ email: data.email })
         if (!user) {
-            return "no user found"
+            return { error: "user not found" };
         }
         const matchPassword = await bcrypt.compare(data.password, user.password)
         if (!matchPassword) {
-            console.log("");
             return { error: "incorrect Password" };
         }
 
@@ -39,9 +38,45 @@ const Login = async ({ data }) => {
     }
 }
 
+const AdminLogin = async ({ data }) => {
+    const password = "pakistan312"
+    const email = "hasnatking1947@gmail.com"
+
+    try {
+        if (data.password === password && data.email === email) {
+            return { _id: "admin123", email: data.email };
+        } else {
+            return { error: "incorrect Password or email" };
+
+        }
+
+    } catch (error) {
+        console.error(error);
+        return { error: "Error occurred during login" };
+    }
+}
+
+
+const updateBooks = async ({ data }) => {
+
+    try {
+        const booksAdd = await userModel.find(data)
+        if (!booksAdd) {
+            return { error: "booksAdd not found or update failed." };
+        }
+
+        return booksAdd
+    } catch (error) {
+        console.error(error);
+        return { error: "Error occurred during booksAdd" };
+    }
+}
+
 const view = {
     Signup,
-    Login
+    Login,
+    updateBooks,
+    AdminLogin
 }
 
 export default view;
